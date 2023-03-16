@@ -1,7 +1,5 @@
 package com.project.lms.vo.request;
 
-import com.project.lms.entity.SubjectInfoEntity;
-
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -12,12 +10,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class ScoreListBySubjectVO {
-    //  private SubjectInfoEntity subject;
+public class ScoreAvgBySubjectVO {
     @Schema(description = "과목 명")
     private String subjectName;
     @Schema(description = "과목 점수")
-    private Integer grade;
-
-
-}   
+    private Double avg; 
+}

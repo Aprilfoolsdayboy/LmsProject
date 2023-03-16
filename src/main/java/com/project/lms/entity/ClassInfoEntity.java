@@ -1,5 +1,7 @@
 package com.project.lms.entity;
 
+import com.project.lms.entity.member.EmployeeInfo;
+
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -9,6 +11,9 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "class_info")
+@AllArgsConstructor
+@Getter
+@NoArgsConstructor
 public class ClassInfoEntity {
 
     @Id
@@ -22,7 +27,10 @@ public class ClassInfoEntity {
     @Column(name = "ci_limit", nullable = false)
     private Integer ciLimit;
 
-    @Column(name = "ci_mi_seq", nullable = false)
-    private Long ciMiSeq;
+    @ManyToOne(fetch = FetchType.LAZY) @JoinColumn(name = "ci_mi_seq", nullable = false)
+    private EmployeeInfo employee;
 
+    public Long getCiSeq(){
+        return ciSeq;
+    }
 }

@@ -2,6 +2,7 @@ package com.project.lms.repository;
 
 import java.util.List;
 
+import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -9,8 +10,11 @@ import org.springframework.data.repository.query.Param;
 import com.project.lms.entity.GradeInfoEntity;
 import com.project.lms.entity.TestInfoEntity;
 import com.project.lms.entity.member.MemberInfoEntity;
+import com.project.lms.entity.member.StudentInfo;
 import com.project.lms.entity.member.TeacherInfo;
+import com.project.lms.vo.grade.SameGrade;
 import com.project.lms.vo.ScoreAvgListBySubjectVO;
+import com.project.lms.vo.request.ScoreAvgBySubjectVO;
 import com.project.lms.vo.request.ScoreListBySubjectYearVO;
 
 public interface GradeInfoRepository extends JpaRepository<GradeInfoEntity, Long> {
@@ -45,14 +49,6 @@ public interface GradeInfoRepository extends JpaRepository<GradeInfoEntity, Long
     List<ScoreListBySubjectYearVO> findByYearScoreList(@Param("seq") Long seq);
 
 
-    @Query("SELECT si.miSeq FROM ClassStudentEntity cst join cst.classInfo ci join cst.student si WHERE ci.ciSeq = :classSeq")
-    List<Long> findByCsSeq(@Param("classSeq") Long classSeq); // 조회하려는 반의 학생 시퀀스를 모두 리스트에 담는다.
-
-    @Query("SELECT sub.subName AS subject, AVG(grd.grade) as avg FROM GradeInfoEntity grd "
-            + "JOIN SubjectInfoEntity sub ON grd.subject.subSeq = sub.subSeq "
-            + "JOIN TestInfoEntity tt ON tt.testSeq = grd.test.testSeq "
-            + "WHERE DATE_FORMAT(tt.testDate, '%Y%m') = :yearMonth AND grd.student.miSeq IN :seqs " 
-            + "GROUP by grd.subject.subSeq")
-    List<ScoreAvgListBySubjectVO> avgBySubject(@Param("seqs")List<Long> list, @Param("yearMonth") Integer yearMonth); // 과목별 평균을 찾아 리스트에 담는다.
-    
+    @Query("select avg(g.grade)as avg from GradeInfoEntity g where g.teacher = :teacher group by g.subject")
+    ScoreAvgBySubjectVO avgBySubject(@Param("teacher") TeacherInfo teacher);
 }
