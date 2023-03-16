@@ -8,5 +8,6 @@ import org.springframework.data.jpa.repository.EntityGraph;
 
 public interface ClassTeacherRepository extends JpaRepository<ClassTeacherEntity, Long> {
     @EntityGraph( attributePaths = {"classInfo"}) //fetch join사용을 위해 붙인 어노테이션. 반정보 테이블도 join해서 가져옴
-    ClassTeacherEntity findByTeacher(TeacherInfo entity);   
+    ClassTeacherEntity findByTeacher(TeacherInfo entity);
+
 }

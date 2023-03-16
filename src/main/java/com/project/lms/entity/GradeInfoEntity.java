@@ -30,9 +30,10 @@ public class GradeInfoEntity {
     @JoinColumn(name = "gi_mi_seq1", nullable = false)    private StudentInfo student;
     
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "gi_mi_seq2", nullable = false) private TeacherInfo teacher;
+    @JoinColumn(name = "gi_mi_seq2", nullable = false)  private TeacherInfo teacher;
+
     @Column(name = "gi_grade")              private Integer grade;
+
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "gi_test_seq", nullable = false)
-    private TestInfoEntity test;
+    @JoinColumn(name = "gi_test_seq", nullable = false)    private TestInfoEntity test;
 }
